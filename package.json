@@ -22,6 +22,7 @@
   "homepage": "https://github.com/chrisnewtn/konfiga",
   "devDependencies": {
     "mocha": "^2.1.0",
+    "sandboxed-module": "^2.0.0",
     "sinon": "^1.12.2"
   }
 }
