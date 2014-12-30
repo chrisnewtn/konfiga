@@ -1,0 +1,20 @@
+{
+  "name": "konfiga",
+  "version": "0.0.0",
+  "description": "Parses command line arguments and environment variables into a frozen object.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisnewtn/konfiga.git"
+  },
+  "keywords": [
+    "configuration",
+    "nodejs"
+  ],
+  "author": "Chris Newton",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chrisnewtn/konfiga/issues"
+  },
+  "homepage": "https://github.com/chrisnewtn/konfiga"
+}
