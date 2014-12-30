@@ -4,7 +4,8 @@
   "description": "Parses command line arguments and environment variables into a frozen object.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "cover": "istanbul cover _mocha test | tail -n 6"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/chrisnewtn/konfiga",
   "devDependencies": {
+    "istanbul": "^0.3.5",
     "mocha": "^2.1.0",
     "sandboxed-module": "^2.0.0",
     "sinon": "^1.12.2"
