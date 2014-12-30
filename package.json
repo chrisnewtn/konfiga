@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/chrisnewtn/konfiga/issues"
   },
-  "homepage": "https://github.com/chrisnewtn/konfiga"
+  "homepage": "https://github.com/chrisnewtn/konfiga",
+  "devDependencies": {
+    "mocha": "^2.1.0"
+  }
 }
