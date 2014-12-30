@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/chrisnewtn/konfiga",
   "devDependencies": {
-    "mocha": "^2.1.0"
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2"
   }
 }
