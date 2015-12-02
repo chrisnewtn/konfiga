@@ -5,8 +5,7 @@
   "rules": {
     "no-eval": 2,
     "no-console": 2,
-    "strict": 2,
-    "no-extra-strict": 2,
+    "strict": [2, "global"],
     "guard-for-in": 2,
     "wrap-iife": 2,
     "new-cap": 2,
