@@ -122,5 +122,13 @@ describe('castValue', function() {
             assert.strictEqual(returnedValue[1], 'bar');
             assert.strictEqual(returnedValue[2], 'baz');
         });
+
+        it('casts a number to a string before returning it wrapped in an array', function() {
+            var returnedValue = castValue(123, Array);
+
+            assert.strictEqual(Array.isArray(returnedValue), true);
+            assert.strictEqual(returnedValue.length, 1);
+            assert.strictEqual(returnedValue.args[0], '123');
+        });
     });
 });
