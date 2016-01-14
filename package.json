@@ -1,6 +1,6 @@
 {
   "name": "konfiga",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Parses command line arguments and environment variables into a frozen object.",
   "main": "index.js",
   "scripts": {
