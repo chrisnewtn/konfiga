@@ -3,6 +3,7 @@
 var assert = require('assert');
 var sinon = require('sinon');
 var SandboxedModule = require('sandboxed-module');
+var defaultParsers = require('../lib/defaultParsers');
 
 describe('konfiga', function() {
     var konfiga;
@@ -21,7 +22,8 @@ describe('konfiga', function() {
         konfiga = SandboxedModule.require('../index', {
             requires: {
                 minimist: minimistStub,
-                './lib/processConfig': processConfigStub
+                './lib/processConfig': processConfigStub,
+                './lib/defaultParsers': new Map([['some', 'parsers']])
             },
             globals: {
                 process: {
@@ -76,6 +78,14 @@ describe('konfiga', function() {
         assert.strictEqual(processConfigStub.args[0][2], customEnvObject);
     });
 
+    it('passes the parsers option merged with default parsers to processConfig if present', function() {
+        konfiga('fakeSchema', {parsers: [{type: 'more', parser: 'custom-parsers'}]});
+
+        assert.equal(processConfigStub.args[0][3].size, 2);
+        assert.equal(processConfigStub.args[0][3].get('some'), 'parsers');
+        assert.equal(processConfigStub.args[0][3].get('more'), 'custom-parsers');
+    });
+
     describe('if no argv option is passed', function() {
         it('passes every arg after the second of process.argv to minimist', function() {
             konfiga('fakeSchema');
@@ -98,6 +108,15 @@ describe('konfiga', function() {
             konfiga('fakeSchema');
 
             assert.strictEqual(processConfigStub.args[0][2], fakeEnv);
+        });
+    });
+
+    describe('if no parsers option is passed', function() {
+        it('passes default parsers into the processConfig', function() {
+            konfiga('fakeSchema');
+
+            assert.equal(processConfigStub.args[0][3].size, 1);
+            assert.equal(processConfigStub.args[0][3].get('some'), 'parsers');
         });
     });
 });
