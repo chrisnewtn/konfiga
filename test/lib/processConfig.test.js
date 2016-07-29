@@ -42,12 +42,12 @@ describe('processConfig', function() {
         assert.strictEqual(typeof processConfig, 'function');
     });
 
-    it('has an arity of 3', function() {
-        assert.strictEqual(processConfig.length, 3);
+    it('has an arity of 4', function() {
+        assert.strictEqual(processConfig.length, 4);
     });
 
     it('returns a frozen object', function() {
-        var returnedObject = processConfig(exampleSchema, {}, {});
+        var returnedObject = processConfig(exampleSchema, {}, {}, 'the-parsers');
 
         assert.strictEqual(Object.isFrozen(returnedObject), true);
     });
@@ -66,7 +66,7 @@ describe('processConfig', function() {
         });
 
         it('is present on the returned object', function() {
-            var returnedObject = processConfig(exampleSchema, {}, {});
+            var returnedObject = processConfig(exampleSchema, {}, {}, 'the-parsers');
 
             assert(returnedObject.hasOwnProperty('testOption'));
             assert(returnedObject.hasOwnProperty('anotherTestOption'));
@@ -76,14 +76,14 @@ describe('processConfig', function() {
             var returnedObject;
 
             beforeEach(function(){
-                returnedObject = processConfig(exampleSchema, argv, {});
+                returnedObject = processConfig(exampleSchema, argv, {}, 'the-parsers');
             });
 
             it('is cast to the type specified in the schema', function() {
                 assert.strictEqual(castValueStub.callCount, 2);
 
-                assert(castValueStub.calledWith('testCliValue', String));
-                assert(castValueStub.calledWith('52', Number));
+                assert(castValueStub.calledWith('testCliValue', String, 'the-parsers'));
+                assert(castValueStub.calledWith('52', Number, 'the-parsers'));
             });
 
             it('has its cast value set on the return object', function() {
@@ -108,14 +108,14 @@ describe('processConfig', function() {
 
             describe('if no equivilant command line value is found', function() {
                 beforeEach(function() {
-                    returnedObject = processConfig(exampleSchema, {}, env);
+                    returnedObject = processConfig(exampleSchema, {}, env, 'the-parsers');
                 });
 
                 it('is cast to the type specified in the schema', function() {
                     assert.strictEqual(castValueStub.callCount, 2);
 
-                    assert(castValueStub.calledWith('testEnvValue', String));
-                    assert(castValueStub.calledWith('48', Number));
+                    assert(castValueStub.calledWith('testEnvValue', String, 'the-parsers'));
+                    assert(castValueStub.calledWith('48', Number, 'the-parsers'));
                 });
 
                 it('has its cast value set on the return object', function() {
@@ -126,14 +126,14 @@ describe('processConfig', function() {
 
             describe('if command line values are found also', function() {
                 beforeEach(function() {
-                    returnedObject = processConfig(exampleSchema, argv, env);
+                    returnedObject = processConfig(exampleSchema, argv, env, 'the-parsers');
                 });
 
                 it('casts and appends the command line values instead', function() {
                     assert.strictEqual(castValueStub.callCount, 2);
 
-                    assert(castValueStub.calledWith('testCliValue', String));
-                    assert(castValueStub.calledWith('52', Number));
+                    assert(castValueStub.calledWith('testCliValue', String, 'the-parsers'));
+                    assert(castValueStub.calledWith('52', Number, 'the-parsers'));
 
                     assert.strictEqual(returnedObject.testOption, 'fakeCastCliString');
                     assert.strictEqual(returnedObject.anotherTestOption, 'fakeCastCliNumber');
@@ -148,14 +148,14 @@ describe('processConfig', function() {
                 castValueStub.withArgs('defaultValue', String).returns('fakeCastDefaultString');
                 castValueStub.withArgs(42, Number).returns('fakeCastDefaultNumber');
 
-                returnedObject = processConfig(exampleSchema, {}, {});
+                returnedObject = processConfig(exampleSchema, {}, {}, 'the-parsers');
             });
 
             it('casts each default value onto the return object', function() {
                 assert.strictEqual(castValueStub.callCount, 2);
 
-                assert(castValueStub.calledWith('defaultValue', String));
-                assert(castValueStub.calledWith(42, Number));
+                assert(castValueStub.calledWith('defaultValue', String, 'the-parsers'));
+                assert(castValueStub.calledWith(42, Number, 'the-parsers'));
 
                 assert.strictEqual(returnedObject.testOption, 'fakeCastDefaultString');
                 assert.strictEqual(returnedObject.anotherTestOption, 'fakeCastDefaultNumber');
