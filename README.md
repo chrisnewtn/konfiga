@@ -98,4 +98,28 @@ var config = konfiga(schema, { argv: myOwnParsedArgs });
 #### `env`
 By default, Konfiga get values from the enviroment using the `process.env` global. I'm not sure why you'd ever need to pass in your own equivilant object, but since I added the option for command line args, I felt I should add one for this too.
 
+#### `parsers`
+Konfiga comes with default parsers. To add more parsers, or override existing parsers, this array can be used. For example, to add a Set type:
+
+```js
+var config = konfiga(schema, {
+    parsers: [
+        {
+            Type: Set,
+            parser: function(value) {
+                if (!value) {
+                    return new Set();
+                }
+
+                if (Array.isArray(value)) {
+                    return new Set(value);
+                }
+
+                return new Set(value.toString().split(','));
+            }
+        }
+    ]
+});
+```
+
 [1]: https://github.com/substack/minimist
