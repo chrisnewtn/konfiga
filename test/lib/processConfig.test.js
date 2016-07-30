@@ -52,6 +52,73 @@ describe('processConfig', function() {
         assert.strictEqual(Object.isFrozen(returnedObject), true);
     });
 
+    describe('required options', function() {
+        var exampleSchema;
+        var argv;
+        var env;
+
+        before(function() {
+            exampleSchema = {
+                testOption: {
+                    required: true,
+                    envVariableName: 'TEST_OPTION',
+                    cmdLineArgName: 'test-option',
+                    type: String
+                },
+                anotherTestOption: {
+                    required: true,
+                    envVariableName: 'ANOTHER_TEST_OPTION',
+                    cmdLineArgName: 'another-test-option',
+                    type: Number
+                }
+            };
+
+            argv = {
+                'test-option': 'blah'
+            };
+
+            env = {
+                'TEST_OPTION': 'meh',
+                'ANOTHER_TEST_OPTION': '1234'
+            };
+
+            castValueStub.withArgs('blah', String).returns('fakeCastCliString');
+            castValueStub.withArgs('1234', Number).returns('fakeCastEnvNumber');
+        });
+
+        it('throws when required options are missing', function() {
+            assert.throws(
+                function() {
+                    processConfig(exampleSchema, {}, {}, 'the-parsers');
+                },
+                Error,
+                'Missing required config for: testOption, anotherTestOption'
+            );
+        });
+
+        it('does not throw when no required options are missing', function() {
+            assert.doesNotThrow(function() {
+                processConfig(exampleSchema, argv, env, 'the-parsers');
+            });
+        });
+
+        it('gives precedence to CLI arguments', function() {
+            processConfig(exampleSchema, argv, env, 'the-parsers');
+
+            assert(castValueStub.calledWith('blah', String, 'the-parsers'));
+            assert(castValueStub.calledWith('1234', Number, 'the-parsers'));
+        });
+
+        it('puts parsed required args on the returned object', function() {
+            var config = processConfig(exampleSchema, argv, env, 'the-parsers');
+
+            assert.deepEqual(config, {
+                testOption: 'fakeCastCliString',
+                anotherTestOption: 'fakeCastEnvNumber'
+            });
+        });
+    });
+
     describe('each option of the schema passed', function() {
         var argv;
 

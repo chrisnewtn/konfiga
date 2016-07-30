@@ -45,6 +45,9 @@ The name of the command line argument that maps to this option. For example, if 
 
 Values from the command line trump both the option's default value and the value from its environment variable.
 
+#### `required`
+When this option is true a value for it must be found in the environment or as a command line argument. If no value is given, konfiga will throw an error.
+
 #### `type`
 **The only optional property**. The type to cast any values into. Everything you get from the command line or environment is a string. Sometimes it can be useful/necessary to cast values into a more appropriate type.
 
