@@ -22,12 +22,12 @@
   },
   "homepage": "https://github.com/chrisnewtn/konfiga",
   "devDependencies": {
-    "istanbul": "^0.3.5",
-    "mocha": "^2.1.0",
-    "sandboxed-module": "^2.0.0",
-    "sinon": "^1.12.2"
+    "istanbul": "^0.3.22",
+    "mocha": "^2.5.3",
+    "sandboxed-module": "^2.0.3",
+    "sinon": "^1.17.7"
   },
   "dependencies": {
-    "minimist": "^1.1.0"
+    "minimist": "^1.2.0"
   }
 }
