@@ -15,7 +15,7 @@ describe('defaultParsers', function() {
             assert.equal(defaultParsers.get('default')(value), 'to-string-result');
         });
     });
-    
+
     describe('String', function() {
         it('calls toString on the given value, and returns the result', function() {
             var value = {
@@ -43,8 +43,6 @@ describe('defaultParsers', function() {
     });
 
     describe('Number', function() {
-        var numberStub;
-
         it('returns a number', function() {
             assert.strictEqual(defaultParsers.get(Number)(12.34), 12.34);
         });
