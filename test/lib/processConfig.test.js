@@ -4,12 +4,12 @@ var assert = require('assert');
 var sinon = require('sinon');
 var SandboxedModule = require('sandboxed-module');
 
-describe('processConfig', function() {
+describe('processConfig', () => {
   var exampleSchema;
   var processConfig;
   var castValueStub;
 
-  before(function() {
+  before(() => {
     castValueStub = sinon.stub();
 
     processConfig = SandboxedModule.require('../../lib/processConfig', {
@@ -34,30 +34,30 @@ describe('processConfig', function() {
     };
   });
 
-  afterEach(function() {
+  afterEach(() => {
     castValueStub.reset();
   });
 
-  it('is a function', function() {
+  it('is a function', () => {
     assert.strictEqual(typeof processConfig, 'function');
   });
 
-  it('has an arity of 4', function() {
+  it('has an arity of 4', () => {
     assert.strictEqual(processConfig.length, 4);
   });
 
-  it('returns a frozen object', function() {
+  it('returns a frozen object', () => {
     var returnedObject = processConfig(exampleSchema, {}, {}, 'the-parsers');
 
     assert.strictEqual(Object.isFrozen(returnedObject), true);
   });
 
-  describe('required options', function() {
+  describe('required options', () => {
     var exampleSchema;
     var argv;
     var env;
 
-    before(function() {
+    before(() => {
       exampleSchema = {
         testOption: {
           required: true,
@@ -86,9 +86,9 @@ describe('processConfig', function() {
       castValueStub.withArgs('1234', Number).returns('fakeCastEnvNumber');
     });
 
-    it('throws when required options are missing', function() {
+    it('throws when required options are missing', () => {
       assert.throws(
-        function() {
+        () => {
           processConfig(exampleSchema, {}, {}, 'the-parsers');
         },
         Error,
@@ -96,20 +96,20 @@ describe('processConfig', function() {
       );
     });
 
-    it('does not throw when no required options are missing', function() {
-      assert.doesNotThrow(function() {
+    it('does not throw when no required options are missing', () => {
+      assert.doesNotThrow(() => {
         processConfig(exampleSchema, argv, env, 'the-parsers');
       });
     });
 
-    it('gives precedence to CLI arguments', function() {
+    it('gives precedence to CLI arguments', () => {
       processConfig(exampleSchema, argv, env, 'the-parsers');
 
       assert(castValueStub.calledWith('blah', String, 'the-parsers'));
       assert(castValueStub.calledWith('1234', Number, 'the-parsers'));
     });
 
-    it('puts parsed required args on the returned object', function() {
+    it('puts parsed required args on the returned object', () => {
       var config = processConfig(exampleSchema, argv, env, 'the-parsers');
 
       assert.deepEqual(config, {
@@ -119,10 +119,10 @@ describe('processConfig', function() {
     });
   });
 
-  describe('each option of the schema passed', function() {
+  describe('each option of the schema passed', () => {
     var argv;
 
-    beforeEach(function(){
+    beforeEach(() => {
       argv = {
         'test-option': 'testCliValue',
         'another-test-option': '52'
@@ -132,38 +132,38 @@ describe('processConfig', function() {
       castValueStub.withArgs('52', Number).returns('fakeCastCliNumber');
     });
 
-    it('is present on the returned object', function() {
+    it('is present on the returned object', () => {
       var returnedObject = processConfig(exampleSchema, {}, {}, 'the-parsers');
 
       assert(returnedObject.hasOwnProperty('testOption'));
       assert(returnedObject.hasOwnProperty('anotherTestOption'));
     });
 
-    describe('each command line value', function(){
+    describe('each command line value', () => {
       var returnedObject;
 
-      beforeEach(function(){
+      beforeEach(() => {
         returnedObject = processConfig(exampleSchema, argv, {}, 'the-parsers');
       });
 
-      it('is cast to the type specified in the schema', function() {
+      it('is cast to the type specified in the schema', () => {
         assert.strictEqual(castValueStub.callCount, 2);
 
         assert(castValueStub.calledWith('testCliValue', String, 'the-parsers'));
         assert(castValueStub.calledWith('52', Number, 'the-parsers'));
       });
 
-      it('has its cast value set on the return object', function() {
+      it('has its cast value set on the return object', () => {
         assert.strictEqual(returnedObject.testOption, 'fakeCastCliString');
         assert.strictEqual(returnedObject.anotherTestOption, 'fakeCastCliNumber');
       });
     });
 
-    describe('each environment variable value', function(){
+    describe('each environment variable value', () => {
       var returnedObject;
       var env;
 
-      beforeEach(function(){
+      beforeEach(() => {
         env = {
           'TEST_OPTION': 'testEnvValue',
           'ANOTHER_TEST_OPTION': '48'
@@ -173,30 +173,30 @@ describe('processConfig', function() {
         castValueStub.withArgs('48', Number).returns('fakeCastEnvNumber');
       });
 
-      describe('if no equivilant command line value is found', function() {
-        beforeEach(function() {
+      describe('if no equivilant command line value is found', () => {
+        beforeEach(() => {
           returnedObject = processConfig(exampleSchema, {}, env, 'the-parsers');
         });
 
-        it('is cast to the type specified in the schema', function() {
+        it('is cast to the type specified in the schema', () => {
           assert.strictEqual(castValueStub.callCount, 2);
 
           assert(castValueStub.calledWith('testEnvValue', String, 'the-parsers'));
           assert(castValueStub.calledWith('48', Number, 'the-parsers'));
         });
 
-        it('has its cast value set on the return object', function() {
+        it('has its cast value set on the return object', () => {
           assert.strictEqual(returnedObject.testOption, 'fakeCastEnvString');
           assert.strictEqual(returnedObject.anotherTestOption, 'fakeCastEnvNumber');
         });
       });
 
-      describe('if command line values are found also', function() {
-        beforeEach(function() {
+      describe('if command line values are found also', () => {
+        beforeEach(() => {
           returnedObject = processConfig(exampleSchema, argv, env, 'the-parsers');
         });
 
-        it('casts and appends the command line values instead', function() {
+        it('casts and appends the command line values instead', () => {
           assert.strictEqual(castValueStub.callCount, 2);
 
           assert(castValueStub.calledWith('testCliValue', String, 'the-parsers'));
@@ -208,17 +208,17 @@ describe('processConfig', function() {
       });
     });
 
-    describe('if no command line or environment values are found', function() {
+    describe('if no command line or environment values are found', () => {
       var returnedObject;
 
-      beforeEach(function() {
+      beforeEach(() => {
         castValueStub.withArgs('defaultValue', String).returns('fakeCastDefaultString');
         castValueStub.withArgs(42, Number).returns('fakeCastDefaultNumber');
 
         returnedObject = processConfig(exampleSchema, {}, {}, 'the-parsers');
       });
 
-      it('casts each default value onto the return object', function() {
+      it('casts each default value onto the return object', () => {
         assert.strictEqual(castValueStub.callCount, 2);
 
         assert(castValueStub.calledWith('defaultValue', String, 'the-parsers'));

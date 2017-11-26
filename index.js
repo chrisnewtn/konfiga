@@ -10,9 +10,7 @@ module.exports = function konfiga(schema, options) {
   const env = opts.env || process.env;
   const parsers = new Map(defaultParsers);
 
-  (opts.parsers || []).forEach(function(parserSpec) {
-    parsers.set(parserSpec.type, parserSpec.parser);
-  });
+  (opts.parsers || []).forEach(({type, parser}) => parsers.set(type, parser));
 
   return processConfig(schema, argv, env, parsers);
 };

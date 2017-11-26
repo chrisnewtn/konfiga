@@ -3,9 +3,9 @@
 var assert = require('assert');
 var defaultParsers = require('../../lib/defaultParsers');
 
-describe('defaultParsers', function() {
-  describe('default', function() {
-    it('calls toString on the given value, and returns the result', function() {
+describe('defaultParsers', () => {
+  describe('default', () => {
+    it('calls toString on the given value, and returns the result', () => {
       var value = {
         toString: function() {
           return 'to-string-result';
@@ -16,8 +16,8 @@ describe('defaultParsers', function() {
     });
   });
 
-  describe('String', function() {
-    it('calls toString on the given value, and returns the result', function() {
+  describe('String', () => {
+    it('calls toString on the given value, and returns the result', () => {
       var value = {
         toString: function() {
           return 'to-string-result';
@@ -28,54 +28,54 @@ describe('defaultParsers', function() {
     });
   });
 
-  describe('Boolean', function() {
-    it('returns true if the value is "true"', function() {
+  describe('Boolean', () => {
+    it('returns true if the value is "true"', () => {
       assert.strictEqual(defaultParsers.get(Boolean)('true'), true);
     });
 
-    it('returns true if the value is true', function() {
+    it('returns true if the value is true', () => {
       assert.strictEqual(defaultParsers.get(Boolean)(true), true);
     });
 
-    it('returns false if the value is falsey', function() {
+    it('returns false if the value is falsey', () => {
       assert.strictEqual(defaultParsers.get(Boolean)(undefined), false);
     });
   });
 
-  describe('Number', function() {
-    it('returns a number', function() {
+  describe('Number', () => {
+    it('returns a number', () => {
       assert.strictEqual(defaultParsers.get(Number)(12.34), 12.34);
     });
 
-    it('destringifies an integer', function() {
+    it('destringifies an integer', () => {
       assert.strictEqual(defaultParsers.get(Number)('12'), 12);
     });
 
-    it('destringifies a decimal', function() {
+    it('destringifies a decimal', () => {
       assert.strictEqual(defaultParsers.get(Number)('12.34'), 12.34);
     });
 
-    it('destringifies other things to NaN', function() {
+    it('destringifies other things to NaN', () => {
       assert.ok(Number.isNaN(defaultParsers.get(Number)('blah')));
     });
   });
 
-  describe('Array', function() {
-    it('returns an empty array if the value is falsey', function() {
+  describe('Array', () => {
+    it('returns an empty array if the value is falsey', () => {
       var returnedValue = defaultParsers.get(Array)(undefined);
 
       assert.strictEqual(Array.isArray(returnedValue), true);
       assert.strictEqual(returnedValue.length, 0);
     });
 
-    it('returns the passed value if it is already an array', function() {
+    it('returns the passed value if it is already an array', () => {
       var passedValue = [1, 2, 3];
       var returnedValue = defaultParsers.get(Array)(passedValue);
 
       assert.strictEqual(returnedValue, passedValue);
     });
 
-    it('returns the passed comma delimited string as an array', function() {
+    it('returns the passed comma delimited string as an array', () => {
       var returnedValue = defaultParsers.get(Array)('foo,bar,baz');
 
       assert.strictEqual(Array.isArray(returnedValue), true);
@@ -85,7 +85,7 @@ describe('defaultParsers', function() {
       assert.strictEqual(returnedValue[2], 'baz');
     });
 
-    it('casts a number to a string before returning it wrapped in an array', function() {
+    it('casts a number to a string before returning it wrapped in an array', () => {
       var returnedValue = defaultParsers.get(Array)(123);
 
       assert.strictEqual(Array.isArray(returnedValue), true);

@@ -4,6 +4,9 @@
     "node": true
   },
   "rules": {
+    "prefer-arrow-callback": ["error", {
+      "allowNamedFunctions": true
+    }],
     "prefer-const": ["error"],
     "indent": ["error", 2],
     "no-eval": 2,
