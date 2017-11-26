@@ -4,6 +4,7 @@
     "node": true
   },
   "rules": {
+    "indent": ["error", 2],
     "no-eval": 2,
     "no-console": 2,
     "strict": [2, "global"],
