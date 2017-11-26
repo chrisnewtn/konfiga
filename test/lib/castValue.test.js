@@ -2,13 +2,10 @@
 
 var assert = require('assert');
 var sinon = require('sinon');
-var SandboxedModule = require('sandboxed-module');
-var castValue = require('../../lib/castValue'); 
+var castValue = require('../../lib/castValue');
 
 describe('castValue', function() {
     var parsers;
-
-    function TestConstructor() {}
 
     beforeEach(function() {
         parsers = new Map([

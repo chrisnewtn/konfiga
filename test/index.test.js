@@ -3,7 +3,6 @@
 var assert = require('assert');
 var sinon = require('sinon');
 var SandboxedModule = require('sandboxed-module');
-var defaultParsers = require('../lib/defaultParsers');
 
 describe('konfiga', function() {
     var konfiga;
