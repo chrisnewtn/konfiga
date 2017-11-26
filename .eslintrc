@@ -4,6 +4,7 @@
     "node": true
   },
   "rules": {
+    "prefer-const": ["error"],
     "indent": ["error", 2],
     "no-eval": 2,
     "no-console": 2,
