@@ -1,7 +1,8 @@
 'use strict';
 
-var assert = require('assert');
-var defaultParsers = require('../../lib/defaultParsers');
+const URL = require('url').URL;
+const assert = require('assert');
+const defaultParsers = require('../../lib/defaultParsers');
 
 describe('defaultParsers', function() {
   describe('default', function() {
@@ -93,4 +94,36 @@ describe('defaultParsers', function() {
       assert.strictEqual(returnedValue[0], '123');
     });
   });
+
+  if (URL) {
+    describe('when using a version of Node that supports the WHATWG URL api', function() {
+      it('has URL as a default parser', () => {
+        assert(defaultParsers.has(URL));
+      });
+
+      it('throws if the value passed is not a valid URL', () => {
+        assert.throws(() => defaultParsers.get(URL)('blah'), TypeError)
+      });
+
+      it('returns a URL object derived from the passed value', () => {
+        const url = defaultParsers.get(URL)('http://example.com/ ');
+
+        assert.equal(url instanceof URL, true, 'Expected the returned value to be a URL');
+        assert.equal(url.href, 'http://example.com/');
+      });
+
+      it('acts as a passthrough if the value passed is already a URL', () => {
+        const url = new URL('http://example.com/ ');
+        const parsedUrl = defaultParsers.get(URL)(url);
+
+        assert.deepEqual(url, parsedUrl);
+      });
+    });
+  } else {
+    describe('when using a version of Node that does not support the WHATWG URL api', function() {
+      it('does not have URL as a default parser', () => {
+        assert(!defaultParsers.has(URL));
+      });
+    });
+  }
 });
