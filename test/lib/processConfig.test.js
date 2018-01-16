@@ -81,9 +81,6 @@ describe('processConfig', function() {
         'TEST_OPTION': 'meh',
         'ANOTHER_TEST_OPTION': '1234'
       };
-
-      castValueStub.withArgs('blah', String).returns('fakeCastCliString');
-      castValueStub.withArgs('1234', Number).returns('fakeCastEnvNumber');
     });
 
     it('throws when required options are missing', function() {
@@ -110,7 +107,12 @@ describe('processConfig', function() {
     });
 
     it('puts parsed required args on the returned object', function() {
-      var config = processConfig(exampleSchema, argv, env, 'the-parsers');
+      var fakeParsers = 'the-parsers';
+
+      castValueStub.withArgs('blah', String, fakeParsers).returns('fakeCastCliString');
+      castValueStub.withArgs('1234', Number, fakeParsers).returns('fakeCastEnvNumber');
+
+      var config = processConfig(exampleSchema, argv, env, fakeParsers);
 
       assert.deepEqual(config, {
         testOption: 'fakeCastCliString',
