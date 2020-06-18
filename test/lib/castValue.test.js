@@ -29,7 +29,7 @@ describe('castValue', function() {
       castValue(null, UnsupportedType, parsers);
     }
 
-    assert.throws(test, 'Unsupported config value type: UnsupportedType');
+    assert.throws(test, /Unsupported config value type: UnsupportedType/);
   });
 
   describe('when passed a value with no type', function() {
