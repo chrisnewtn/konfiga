@@ -14,7 +14,7 @@ describe('integration tests', () => {
 
   beforeEach(() => {
     opts = {env: {}, argv: []};
-    parsers = [{type: CryBaby, parser: value => new CryBaby(value)}]
+    parsers = [{type: CryBaby, parser: function parseCryBaby (val) { return new CryBaby(val)}}]
   });
 
   it('parses the default value of a required config option', () => {
@@ -68,7 +68,7 @@ describe('integration tests', () => {
     opts = {env: {}, argv: {'some-option': 'test'}, parsers};
 
     assert.throws(() => konfiga(schema, opts),
-      /Error: whaaaaaa don't like test/);
+      /Error: Unable to parse test using parseCryBaby for option someOption from the command line/);
   });
 
   it('throws when unable to parse a value from the environment', () => {
@@ -83,7 +83,7 @@ describe('integration tests', () => {
     opts = {env: {SOME_OPTION: 'blah'}, argv: {}, parsers};
 
     assert.throws(() => konfiga(schema, opts),
-      /Error: whaaaaaa don't like blah/);
+      /Error: Unable to parse blah using parseCryBaby for option someOption from the environment/);
   });
 
   it('throws when unable to parse a value from the default', () => {
@@ -98,7 +98,7 @@ describe('integration tests', () => {
     opts = {env: {}, argv: {}};
 
     assert.throws(() => konfiga(schema, opts),
-      /TypeError: Cannot read property 'toString' of undefined/);
+      /Error: Unable to parse undefined using parseString for option someOption from the default value/);
   });
 
   if (URL) {

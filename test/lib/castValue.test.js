@@ -18,10 +18,6 @@ describe('castValue', function() {
     assert.strictEqual(typeof castValue, 'function');
   });
 
-  it('has an arity of 3', function() {
-    assert.strictEqual(castValue.length, 3);
-  });
-
   it('throws if the type passed is not supported', function() {
     function UnsupportedType() {}
 
