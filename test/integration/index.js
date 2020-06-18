@@ -32,7 +32,7 @@ describe('integration tests', () => {
       }
     };
 
-    assert.throws(() => konfiga(schema, opts), 'Missing required config for: someValue');
+    assert.throws(() => konfiga(schema, opts), /Missing required config for: someValue/);
   });
 
   it('parses required config present in the environment', () => {
