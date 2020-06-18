@@ -21,7 +21,7 @@
     "max-depth": [2, 3],
     "no-undef": 2,
     "no-unused-vars": 2,
-    "max-params": [2, 4],
+    "max-params": [2, 5],
     "max-statements": [2, 20],
     "complexity": [2, 10],
     "quotes": [2, "single"],
