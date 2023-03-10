@@ -108,7 +108,7 @@ Konfiga comes with default parsers. To add more parsers, or override existing pa
 var config = konfiga(schema, {
     parsers: [
         {
-            Type: Set,
+            type: Set,
             parser: function(value) {
                 if (!value) {
                     return new Set();
